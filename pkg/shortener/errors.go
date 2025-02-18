@@ -1,9 +1,15 @@
 package shortener
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 var (
-	ErrInvalidURL           = errors.New("invalid URL format")
-	ErrMissingHost          = errors.New("URL must have a host")
-	ErrShortURLDoesNotExist = errors.New("given short URL does not exist")
+	ErrInvalidURL  = errors.New("invalid URL format")
+	ErrMissingHost = errors.New("URL must have a host")
 )
+
+func ErrShortURLDoesNotExist(shortURL string) error {
+	return fmt.Errorf("short URL '%s' does not exist", shortURL)
+}

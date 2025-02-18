@@ -28,29 +28,29 @@ func (s *InMemory) Shorten(ctx context.Context, url string, length int) (string,
 
 		// If url is valid, generate name and save it
 		saved := false
-		shortURL := ""
+		shortCode := ""
 		for !saved {
-			shortURL = shorten(url, s.host, length)
-			saved = s.save(url, shortURL)
+			shortCode = generateRandomString(length)
+			saved = s.save(url, shortCode)
 		}
 
-		return shortURL, nil
+		return shortCode, nil
 	}
 }
 
-func (s *InMemory) save(rawURL string, shortURL string) bool {
-	if _, exists := s.urls[shortURL]; exists {
+func (s *InMemory) save(rawURL string, shortCode string) bool {
+	if _, exists := s.urls[shortCode]; exists {
 		return false
 	}
 
-	s.urls[shortURL] = rawURL
+	s.urls[shortCode] = rawURL
 	return true
 }
 
-func (s *InMemory) OriginalURL(ctx context.Context, shortURL string) (string, error) {
-	originalURL, exists := s.urls[shortURL]
+func (s *InMemory) OriginalURL(ctx context.Context, shortCode string) (string, error) {
+	originalURL, exists := s.urls[shortCode]
 	if !exists {
-		return "", ErrShortURLDoesNotExist
+		return "", ErrShortURLDoesNotExist(shortCode)
 	}
 
 	return originalURL, nil

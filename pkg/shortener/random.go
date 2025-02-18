@@ -8,17 +8,6 @@ import (
 
 const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-func shorten(URL string, host string, length int) string {
-	randPath := generateRandomString(length)
-
-	h := host
-	if host[len(host)-1] != '/' {
-		h = host + "/"
-	}
-
-	return h + randPath
-}
-
 func generateRandomString(length int) string {
 	seeded := rand.New(rand.NewSource(time.Now().UnixNano()))
 
